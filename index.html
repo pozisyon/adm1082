@@ -16,14 +16,20 @@
       --muted: #475569;
       --card: #ffffff;
       --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+      --shadow-hover: 0 18px 40px rgba(15, 23, 42, 0.12);
       --radius: 20px;
       --max-width: 1200px;
+      --nav-height: 78px;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -48,15 +54,62 @@
       margin: 0 auto;
     }
 
+    /* NAVIGATION */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #e2e8f0;
+      min-height: var(--nav-height);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-content {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--primary-dark);
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-weight: 600;
+      transition: 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    /* HERO */
     .hero {
       background: linear-gradient(135deg, var(--primary-dark), var(--primary), var(--secondary));
       color: var(--white);
-      padding: 80px 0;
+      padding: 90px 0 80px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1.2fr 0.8fr;
       gap: 40px;
       align-items: center;
     }
@@ -80,6 +133,7 @@
       font-size: 1.1rem;
       color: rgba(255, 255, 255, 0.92);
       margin-bottom: 28px;
+      max-width: 700px;
     }
 
     .buttons {
@@ -154,7 +208,8 @@
     }
 
     section {
-      padding: 70px 0;
+      padding: 80px 0;
+      scroll-margin-top: 90px;
     }
 
     .section-title {
@@ -197,6 +252,12 @@
       border-radius: var(--radius);
       padding: 28px;
       box-shadow: var(--shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-hover);
     }
 
     .card h3 {
@@ -236,26 +297,56 @@
 
     .list li::before {
       content: "✔ ";
-      color: var(--primary);
+      color: #22c55e;
       font-weight: bold;
     }
 
     .team-card {
       text-align: center;
     }
-.avatar {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin: 0 auto 16px;
-}
 
-.avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+    .avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 16px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary-dark);
+      border: 3px solid #dbeafe;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* PESTEL */
+    .pestel-card {
+      border-left: 5px solid var(--secondary);
+    }
+
+    .pestel-card h3 {
+      color: var(--primary-dark);
+    }
+
+    /* ANIMATION */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     footer {
       background: var(--white);
@@ -279,6 +370,15 @@
     }
 
     @media (max-width: 768px) {
+      .nav-content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        gap: 12px;
+      }
+
       .hero-grid,
       .grid-4,
       .grid-3,
@@ -297,13 +397,31 @@
       .section-title h2 {
         font-size: 1.8rem;
       }
+
+      .buttons {
+        flex-direction: column;
+        align-items: flex-start;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="hero">
+
+  <nav class="navbar">
+    <div class="container nav-content">
+      <a href="#accueil" class="brand"><h1>Sérénité Aînés</h1></a>
+      <div class="nav-links">
+        <a href="#projet">Projet</a>
+        <a href="#valeur">Valeur ajoutée</a>
+        <a href="#pestel">PESTEL</a>
+        <a href="#equipe">Équipe</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero" id="accueil">
     <div class="container hero-grid">
-      <div>
+      <div class="reveal">
         <span class="badge">ADM1082 • Initiation à l’entrepreneuriat</span>
         <h1>Sérénité Aînés</h1>
         <p>
@@ -313,13 +431,17 @@
         <div class="buttons">
           <a href="#projet" class="btn btn-primary">Découvrir le projet</a>
           <a href="#equipe" class="btn btn-secondary">Voir l’équipe</a>
+          <a href="#pestel" class="btn btn-secondary">PESTEL</a>
           <a href="./docs/Travail1_ADM1082.pdf" class="btn btn-primary" download>
-  Télécharger le projet (PDF)
-</a>
+            Télécharger le projet (PDF)
+          </a>
+           <a href="./docs/Application-Mobile-pour-Aines.pptx" class="btn btn-primary" download>
+            Télécharger le powerpoint
+          </a>
         </div>
       </div>
 
-     <!-- <div class="hero-card">
+      <!--<div class="hero-card reveal">
         <div class="logo-box">
           <div class="logo-icon">❤️</div>
           <div>
@@ -340,36 +462,35 @@
 
   <section id="projet">
     <div class="container">
-      <div class="section-title">
+      <div class="section-title reveal">
         <h2>Présentation du projet</h2>
         <p>
           Notre projet consiste à développer une application mobile destinée aux personnes âgées
           vivant à domicile et en attente d’une place en résidence, afin de favoriser leur autonomie,
           leur sécurité et leur bien-être au quotidien.
         </p>
-        
       </div>
 
       <div class="grid-4">
-        <article class="card">
+        <article class="card reveal">
           <div class="icon">⏰</div>
           <h3>Rappels intelligents</h3>
           <p>Notifications pour les médicaments, les rendez-vous médicaux et les routines quotidiennes.</p>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="icon">🛡️</div>
           <h3>Sécurité renforcée</h3>
           <p>Bouton d’urgence simple d’accès pour contacter rapidement un proche ou obtenir de l’aide.</p>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="icon">👨‍👩‍👧</div>
           <h3>Lien avec les proches</h3>
           <p>Un espace famille pour améliorer le suivi à distance et rassurer les proches aidants.</p>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="icon">🏠</div>
           <h3>Maintien à domicile</h3>
           <p>Une solution simple pour aider les aînés à demeurer autonomes le plus longtemps possible.</p>
@@ -380,7 +501,7 @@
 
   <section class="highlight">
     <div class="container grid-2">
-      <article class="card">
+      <article class="card reveal">
         <h3>Problème identifié</h3>
         <p>
           Plusieurs personnes âgées doivent rester à domicile pendant une longue période avant d’obtenir
@@ -389,7 +510,7 @@
         </p>
       </article>
 
-      <article class="card">
+      <article class="card reveal">
         <h3>Solution proposée</h3>
         <p>
           Nous proposons une application mobile accessible et intuitive qui centralise les rappels,
@@ -399,15 +520,15 @@
     </div>
   </section>
 
-  <section>
+  <section id="valeur">
     <div class="container">
-      <div class="section-title">
+      <div class="section-title reveal">
         <h2>Valeur ajoutée</h2>
         <p>Ce qui rend notre projet pertinent, humain et distinctif.</p>
       </div>
 
       <div class="grid-2">
-        <article class="card dark">
+        <article class="card dark reveal">
           <h3>Points forts du projet</h3>
           <ul class="list">
             <li>Solution ciblée pour les aînés en attente de résidence</li>
@@ -417,7 +538,7 @@
           </ul>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <h3>Objectifs</h3>
           <ul class="list">
             <li>Réduire les oublis de médicaments</li>
@@ -431,37 +552,85 @@
     </div>
   </section>
 
-  <section id="equipe" class="highlight">
+  <section id="pestel" class="highlight">
     <div class="container">
-      <div class="section-title">
+      <div class="section-title reveal">
+        <h2>Analyse PESTEL</h2>
+        <p>Analyse du macro-environnement influençant le développement du projet.</p>
+      </div>
+
+      <div class="grid-3">
+        <article class="card pestel-card reveal">
+          <div class="icon">🏛️</div>
+          <h3>Politique</h3>
+          <p>Les politiques publiques favorisent le maintien à domicile et l’innovation en santé numérique.</p>
+        </article>
+
+        <article class="card pestel-card reveal">
+          <div class="icon">💰</div>
+          <h3>Économique</h3>
+          <p>Le vieillissement de la population augmente les besoins, mais impose un modèle abordable.</p>
+        </article>
+
+        <article class="card pestel-card reveal">
+          <div class="icon">👵</div>
+          <h3>Socioculturel</h3>
+          <p>Les aînés souhaitent conserver leur autonomie et rester à domicile le plus longtemps possible.</p>
+        </article>
+
+        <article class="card pestel-card reveal">
+          <div class="icon">📱</div>
+          <h3>Technologique</h3>
+          <p>Les progrès en télésanté, applications mobiles et suivi à distance rendent la solution réaliste.</p>
+        </article>
+
+        <article class="card pestel-card reveal">
+          <div class="icon">🌿</div>
+          <h3>Écologique</h3>
+          <p>Le numérique réduit certains déplacements et contribue indirectement à une meilleure efficacité.</p>
+        </article>
+
+        <article class="card pestel-card reveal">
+          <div class="icon">⚖️</div>
+          <h3>Légal</h3>
+          <p>La protection des renseignements personnels, notamment la Loi 25, est un enjeu essentiel.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="equipe">
+    <div class="container">
+      <div class="section-title reveal">
         <h2>Équipe no 3</h2>
         <p>Les membres qui présentent ce projet dans le cadre du cours ADM1082.</p>
       </div>
 
       <div class="grid-4">
-        <article class="card team-card">
+        <article class="card team-card reveal">
           <div class="avatar">👤</div>
           <h3>Valoussa Bayonne</h3>
           <p>Membre de l’équipe projet</p>
         </article>
 
-        <article class="card team-card">
+        <article class="card team-card reveal">
           <div class="avatar">👤</div>
           <h3>Cynthia Lundy</h3>
           <p>Membre de l’équipe projet</p>
         </article>
 
-<article class="card team-card">
-  <div class="avatar">
-    <img src="./images/trompe.jpeg" alt="Louis Jean Marie Trompé">
-  </div>
-  <h3>Louis Jean Marie Trompé</h3>
-  <p>Membre de l’équipe projet</p>
-</article>
+        <article class="card team-card reveal">
+          <div class="avatar">
+            <img src="./images/trompe.jpeg" alt="Louis Jean Marie Trompé">
+          </div>
+          <h3>Louis Jean Marie Trompé</h3>
+          <p>Membre de l’équipe projet</p>
+        </article>
 
-        <article class="card team-card">
-           <div class="avatar">
-    <img src="./images/cherlie.webp" alt="Cherlie Rivage"></div>
+        <article class="card team-card reveal">
+          <div class="avatar">
+            <img src="./images/cherlie.webp" alt="Cherlie Rivage">
+          </div>
           <h3>Cherlie Rivage</h3>
           <p>Membre de l’équipe projet</p>
         </article>
@@ -475,6 +644,21 @@
       <p>Présenté à M. Siba Theodore Koropogui • Cours ADM1082</p>
     </div>
   </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.15
+    });
+
+    reveals.forEach((el) => observer.observe(el));
+  </script>
 </body>
 </html>
-
